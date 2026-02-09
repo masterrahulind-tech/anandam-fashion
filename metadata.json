@@ -1,0 +1,8 @@
+
+{
+  "name": "Anandam Fashion",
+  "description": "A premium e-commerce platform for women, girls, and children's fashion, featuring AI-powered styling advice, comprehensive order tracking, and an admin dashboard for inventory management.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
