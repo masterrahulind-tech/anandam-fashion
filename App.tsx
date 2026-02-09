@@ -13,6 +13,7 @@ import { INITIAL_PRODUCTS } from './constants';
 import { getFashionAdvice } from './services/geminiService';
 import { client, databases, account } from './services/appwriteService';
 import { fetchAnandamFashionDocuments } from './services/appwriteService';
+import { fetchProducts, addProduct, updateProduct as updateProductFS, deleteProduct as deleteProductFS, fetchOrdersByUser as fetchOrdersByUserFS, addOrder as addOrderFS } from './services/firestoreService';
 import { createOrder } from './services/appwriteService';
 import { fetchOrdersByUser } from './services/appwriteService';
 import { createProduct, updateProduct, deleteProduct as deleteProductDB } from './services/appwriteService';
@@ -52,22 +53,22 @@ interface AppContextType {
 
 const AppContext = createContext<AppContextType | null>(null);
 
-// --- Products State: Use Appwrite DB ---
+// --- Products State: Use Firestore ---
 const [products, setProducts] = useState<Product[]>([]);
 const [productsLoading, setProductsLoading] = useState<boolean>(true);
 const [productsError, setProductsError] = useState<string | null>(null);
 
 useEffect(() => {
   setProductsLoading(true);
-  fetchAnandamFashionDocuments('products')
-    .then(response => {
-      setProducts(response.documents || []);
+  fetchProducts()
+    .then(data => {
+      setProducts(data);
       setProductsLoading(false);
     })
     .catch(err => {
-      setProductsError('Failed to fetch products from database');
+      setProductsError('Failed to fetch products from Firestore');
       setProductsLoading(false);
-      console.error('Appwrite DB Error:', err);
+      console.error('Firestore DB Error:', err);
     });
 }, []);
 // --- Render fetched products from Appwrite ---
@@ -563,14 +564,14 @@ const AdminDashboard = () => {
       reviews: []
     };
     try {
-      if (editing && editing.$id) {
-        await updateProduct(editing.$id, p);
+      if (editing && editing.id) {
+        await updateProductFS(editing.id, p);
       } else {
-        await createProduct(p);
+        await addProduct(p);
       }
-      // Refresh products from DB
-      const response = await fetchAnandamFashionDocuments('products');
-      setProducts(response.documents || []);
+      // Refresh products from Firestore
+      const data = await fetchProducts();
+      setProducts(data);
       setIsModalOpen(false);
     } catch (err) {
       alert('Failed to save product');
@@ -582,10 +583,10 @@ const AdminDashboard = () => {
   const deleteProduct = async (id: string) => {
     if (!confirm('Delete this product?')) return;
     try {
-      await deleteProductDB(id);
-      // Refresh products from DB
-      const response = await fetchAnandamFashionDocuments('products');
-      setProducts(response.documents || []);
+      await deleteProductFS(id);
+      // Refresh products from Firestore
+      const data = await fetchProducts();
+      setProducts(data);
     } catch (err) {
       alert('Failed to delete product');
     }
@@ -1283,13 +1284,13 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
 
-  // Fetch orders for logged-in user
+  // Fetch orders for logged-in user (Firestore)
   useEffect(() => {
     async function fetchOrders() {
       if (user && user.id) {
         try {
-          const response = await fetchOrdersByUser(user.id);
-          setOrders(response.documents || []);
+          const data = await fetchOrdersByUserFS(user.id);
+          setOrders(data);
         } catch (err) {
           setOrders([]);
         }
@@ -1322,7 +1323,7 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const toggleWishlist = (id: string) => setWishlist(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
   const addOrder = async (order: Order) => {
     try {
-      await createOrder(order);
+      await addOrderFS(order);
       setOrders(prev => [order, ...prev]);
       clearCart();
     } catch (err) {
