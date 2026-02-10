@@ -1,19 +1,5 @@
-/* Fade-in animation for cards and modals */
-.fade-in {
-  animation: fadeIn 0.7s ease;
-}
-
-.animate-fadeIn {
-  animation: fadeIn 0.4s ease-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
 /* Global theme variables and component styles */
-:root {
+:root{
   --ivory: #FCFBF7;
   --gold: #C5A059;
   --muted: #94a3b8;
@@ -21,7 +7,8 @@
   --card-shadow: 0 6px 18px rgba(16,24,40,0.06);
 }
 
-body {
+/* Body and fonts - keep existing fonts from index.html */
+body{
   background: var(--ivory);
   color: #0f172a; /* slate-900 */
   -webkit-font-smoothing: antialiased;
@@ -29,65 +16,142 @@ body {
 }
 
 /* Logo sizing helper used in components */
-.logo-img {
-  max-height: 80px;
+.logo-img{
+  max-height: 80px; /* default */
   height: 100%;
   width: auto;
   display: block;
 }
 
-@media (min-width: 768px) {
-  .logo-img { max-height: 100px; }
+@media (min-width: 768px){
+  .logo-img{ max-height: 100px; }
 }
-
-@media (min-width: 1024px) {
-  .logo-img { max-height: 120px; }
+@media (min-width: 1024px){
+  .logo-img{ max-height: 120px; }
 }
 
 /* Subtle background accent for main content */
-.main-accent {
+.main-accent{
   background: linear-gradient(180deg, rgba(252,251,247,0.8) 0%, rgba(255,255,255,0.6) 100%);
 }
 
+/* Buttons */
+.btn-primary{
+  background: var(--gold);
+  color: #07101a;
+  padding: .75rem 1rem;
+  border-radius: .375rem;
+  font-weight: 700;
+  transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+  box-shadow: 0 6px 18px rgba(197,160,89,0.12);
+}
+.btn-primary:hover{ transform: translateY(-2px); box-shadow: 0 12px 30px rgba(197,160,89,0.16); }
+.btn-muted{ background: transparent; border: 1px solid rgba(15,23,42,0.06); }
+
 /* Cards */
-.card {
+.card{
   background: white;
   border-radius: .375rem;
   box-shadow: var(--card-shadow);
   transition: transform .18s ease, box-shadow .18s ease;
 }
-
-.card:hover { transform: translateY(-6px); box-shadow: 0 18px 48px rgba(16,24,40,0.08); }
+.card:hover{ transform: translateY(-6px); box-shadow: 0 18px 48px rgba(16,24,40,0.08); }
 
 /* Inputs */
-input[type="text"], input[type="email"], input[type="search"], textarea {
+input[type="text"], input[type="email"], input[type="search"], textarea{
   transition: box-shadow .12s ease, border-color .12s ease;
 }
-
-input:focus, textarea:focus { 
-  outline: none; 
-  box-shadow: 0 6px 18px rgba(197,160,89,0.08); 
-  border-color: var(--gold); 
-}
+input:focus, textarea:focus{ outline: none; box-shadow: 0 6px 18px rgba(197,160,89,0.08); border-color: var(--gold); }
 
 /* Link styles */
-a { transition: color .12s ease, transform .12s ease; }
-a:hover { color: var(--gold); transform: translateY(-1px); }
+a{ transition: color .12s ease, transform .12s ease; }
+a:hover{ color: var(--gold); transform: translateY(-1px); }
 
 /* Footer tweaks */
-footer { background: #0b0b0b; }
-footer h4 { color: var(--gold); }
+footer{ background: #0b0b0b; }
+footer h4{ color: var(--gold); }
 
-/* Profile Dropdown Custom Positioning */
-.profile-dropdown-container:hover .dropdown-menu {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
+/* Reduce harsh borders used by Tailwind where needed */
+.border-soft{ border-color: rgba(15,23,42,0.04) !important; }
+
+/* Keep layout stable */
+.container-max{ max-width: 1120px; margin: 0 auto; }
+
+/* Global theme variables and component styles */
+:root{
+  --ivory: #FCFBF7;
+  --gold: #C5A059;
+  --muted: #94a3b8;
+  --accent: rgba(197,160,89,0.08);
+  --card-shadow: 0 6px 18px rgba(16,24,40,0.06);
 }
 
-.dropdown-menu {
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(10px);
-  transition: all 0.3s ease;
+/* Body and fonts - keep existing fonts from index.html */
+body{
+  background: var(--ivory);
+  color: #0f172a; /* slate-900 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+/* Logo sizing helper used in components */
+.logo-img{
+  max-height: 80px; /* default */
+  height: 100%;
+  width: auto;
+  display: block;
+}
+
+@media (min-width: 768px){
+  .logo-img{ max-height: 100px; }
+}
+@media (min-width: 1024px){
+  .logo-img{ max-height: 120px; }
+}
+
+/* Subtle background accent for main content */
+.main-accent{
+  background: linear-gradient(180deg, rgba(252,251,247,0.8) 0%, rgba(255,255,255,0.6) 100%);
+}
+
+/* Buttons */
+.btn-primary{
+  background: var(--gold);
+  color: #07101a;
+  padding: .75rem 1rem;
+  border-radius: .375rem;
+  font-weight: 700;
+  transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+  box-shadow: 0 6px 18px rgba(197,160,89,0.12);
+}
+.btn-primary:hover{ transform: translateY(-2px); box-shadow: 0 12px 30px rgba(197,160,89,0.16); }
+.btn-muted{ background: transparent; border: 1px solid rgba(15,23,42,0.06); }
+
+/* Cards */
+.card{
+  background: white;
+  border-radius: .375rem;
+  box-shadow: var(--card-shadow);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.card:hover{ transform: translateY(-6px); box-shadow: 0 18px 48px rgba(16,24,40,0.08); }
+
+/* Inputs */
+input[type="text"], input[type="email"], input[type="search"], textarea{
+  transition: box-shadow .12s ease, border-color .12s ease;
+}
+input:focus, textarea:focus{ outline: none; box-shadow: 0 6px 18px rgba(197,160,89,0.08); border-color: var(--gold); }
+
+/* Link styles */
+a{ transition: color .12s ease, transform .12s ease; }
+a:hover{ color: var(--gold); transform: translateY(-1px); }
+
+/* Footer tweaks */
+footer{ background: #0b0b0b; }
+footer h4{ color: var(--gold); }
+
+/* Reduce harsh borders used by Tailwind where needed */
+.border-soft{ border-color: rgba(15,23,42,0.04) !important; }
+
+/* Keep layout stable */
+.container-max{ max-width: 1120px; margin: 0 auto; }
