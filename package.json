@@ -1,0 +1,27 @@
+{
+  "name": "anandam-fashion",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "sitemap": "npx tsx scripts/generate-sitemap.ts",
+    "build": "npm run sitemap && vite build && node -e \"require('fs').mkdirSync('functions/lib', {recursive: true}); require('fs').copyFileSync('dist/index.html', 'functions/lib/index.html')\"",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@cashfreepayments/cashfree-js": "^1.0.7",
+    "@google/genai": "^1.40.0",
+    "firebase": "^12.9.0",
+    "lucide-react": "^0.563.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-router-dom": "^7.13.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
+  }
+}
